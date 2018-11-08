@@ -80,9 +80,6 @@
             @endif
 
             <div class="content">
-                <div>
-                    <img src="img/welcome.jpg" alt="Welcome">
-                </div>
                 <div class="title m-b-md">
                     Laravel
                 </div>
