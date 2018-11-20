@@ -16,7 +16,13 @@
 
 ## Premières commandes à lancer
 `php artisan key:generate`
+
 `php artisan migrate`
+
+***
+
+## Pour démarrer le projet
+`php artisan serve`
 
 ***
 
