@@ -27,4 +27,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /////////////////////
+    /// Relationships ///
+    /////////////////////
+
+    /**
+     * Get types related to the user
+     *
+     * @access public
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function types()
+    {
+        return $this->belongsToMany('App\Models\Type', 'user_type');
+    }
 }
