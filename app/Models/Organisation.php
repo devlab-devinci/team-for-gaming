@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Team extends Model
+class Organisation extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,6 @@ class Team extends Model
      * @var array
      */
     protected $fillable = [
-        'organisation_id',
         'name'
     ];
 
@@ -21,14 +20,14 @@ class Team extends Model
     /////////////////////
 
     /**
-     * Get organisation related to the team
+     * Get teams related to the organisation
      *
      * @access public
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function organisation()
+    public function teams()
     {
-        return $this->belongsTo('App\Models\Organisation');
+        return $this->hasMany('App\Models\Team');
     }
 }
