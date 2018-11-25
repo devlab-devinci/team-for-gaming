@@ -44,4 +44,16 @@ class Role extends Model
     {
         return $this->belongsTo('App\Models\Game');
     }
+
+    /**
+     * Get users related to the role
+     *
+     * @access public
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User', 'user_type');
+    }
 }

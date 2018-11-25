@@ -41,6 +41,18 @@ class User extends Authenticatable
      */
     public function types()
     {
-        return $this->belongsToMany('App\Models\Type', 'user_type');
+        return $this->belongsToMany('App\Models\Type', 'type_user');
+    }
+
+    /**
+     * Get roles related to the user
+     *
+     * @access public
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany('App\Models\Role', 'role_user');
     }
 }
