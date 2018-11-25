@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GameLevel extends Model
+class Team extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,9 +12,8 @@ class GameLevel extends Model
      * @var array
      */
     protected $fillable = [
-        'game_id',
-        'label',
-        'order'
+        'organisation_id',
+        'name',
     ];
 
     /////////////////////
@@ -22,14 +21,14 @@ class GameLevel extends Model
     /////////////////////
 
     /**
-     * Get game related to the game level
+     * Get organisation related to the team
      *
      * @access public
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function gameLevels()
+    public function organisation()
     {
-        return $this->belongsTo('App\Models\Game');
+        return $this->belongsTo('App\Models\Organisation');
     }
 }
