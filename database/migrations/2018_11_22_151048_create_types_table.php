@@ -17,7 +17,6 @@ class CreateTypesTable extends Migration
             $table->increments('id');
             $table->string('label', 255);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
