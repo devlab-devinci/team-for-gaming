@@ -19,8 +19,8 @@ class CreateTypeUserTable extends Migration
             $table->integer('type_id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('type_id')->references('id')->on('types');
+            //$table->foreign('user_id')->references('id')->on('users');
+            //$table->foreign('type_id')->references('id')->on('types');
         });
     }
 

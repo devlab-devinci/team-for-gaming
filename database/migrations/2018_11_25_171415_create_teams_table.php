@@ -19,7 +19,7 @@ class CreateTeamsTable extends Migration
             $table->string('name', 255);
             $table->timestamps();
 
-            $table->foreign('organisation_id')->references('id')->on('organisations');
+            //$table->foreign('organisation_id')->references('id')->on('organisations');
         });
     }
 

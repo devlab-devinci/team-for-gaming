@@ -20,8 +20,8 @@ class CreateRolesTable extends Migration
             $table->string('label', 255);
             $table->timestamps();
 
-            $table->foreign('type_id')->references('id')->on('types');
-            $table->foreign('game_id')->references('id')->on('games');
+            //$table->foreign('type_id')->references('id')->on('types');
+            //$table->foreign('game_id')->references('id')->on('games');
         });
     }
 

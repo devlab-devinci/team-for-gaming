@@ -20,7 +20,7 @@ class CreateGameLevelsTable extends Migration
             $table->smallInteger('order');
             $table->timestamps();
 
-            $table->foreign('game_id')->references('id')->on('games');
+            //$table->foreign('game_id')->references('id')->on('games');
         });
     }
 
