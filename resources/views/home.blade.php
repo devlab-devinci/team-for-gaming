@@ -2,6 +2,17 @@
 
 @section('content')
 <div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            @if(Session::has('auth'))
+                <div class="alert alert-danger">
+                    {{
+                    Session::get('auth')
+                    }}
+                </div>
+            @endif
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

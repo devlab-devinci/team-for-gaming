@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Session;
 use Closure;
 use App\Models\User;
@@ -18,6 +18,15 @@ class CheckTypeSystem
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        $userId = Auth::id();
+        $user = User::find($userId);
+
+        foreach ($user->types as $type) {
+            if($type->label === 'system') {
+                return $next($request);
+            }
+        }
+        Session::flash('auth', 'Vous n\'êtes pas autorisé à accéder à cette page');
+        return redirect()->route('home');
     }
 }
