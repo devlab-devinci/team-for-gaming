@@ -41,6 +41,11 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
+
+        'system' => [
+            'web',
+            \App\Http\Middleware\CheckTypeSystem::class
+        ]
     ];
 
     /**
