@@ -16,11 +16,12 @@
 
                                 <div class="col-md-6">
 
-                                    <input id="nickname" type="text" class="form-control{{ $errors->has('nickname') ? ' est invalide' : '' }}" name="nickname" value="{{ old('nickname') }}" required autofocus>
+                                    <input id="username" type="text" class="form-control{{ $errors->has('username') ? ' est invalide' : '' }}"
+                                           name="username" value="{{ old('username') }}" required autofocus>
 
-                                    @if ($errors->has('nickname'))
+                                    @if ($errors->has('username'))
                                         <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('nickname') }}</strong>
+                                        <strong>{{ $errors->first('username') }}</strong>
                                     </span>
                                     @endif
                                 </div>
@@ -71,7 +72,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            {{--<div class="form-group row">
                                 <label for="game" class="col-md-4 col-form-label text-md-right">{{ __('Jeu') }}</label>
 
                                 <div class="col-md-6">
@@ -87,7 +88,7 @@
                                     </span>
                                     @endif
                                 </div>
-                            </div>
+                            </div>--}}
 
                             <div class="form-group row">
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
