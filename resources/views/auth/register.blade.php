@@ -72,13 +72,13 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="game" class="col-md-4 col-form-label text-md-right">{{ __('jeu') }}</label>
+                                <label for="game" class="col-md-4 col-form-label text-md-right">{{ __('Jeu') }}</label>
 
                                 <div class="col-md-6">
 
                                     <select id="game" name="game" class="form-control{{ $errors->has('game') ? ' est invalide' : '' }}" required>
                                         <option></option>
-                                        <option value="league-of-legends">League of legends</option>
+                                        <option value="league-of-legends">League of Legends</option>
                                     </select>
 
                                     @if ($errors->has('game'))
