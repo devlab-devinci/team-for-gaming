@@ -7,6 +7,8 @@
 
 ## Pour récupérer le dossier vendor
 `composer install`
+## Pour récupérer le dossier node_modules
+`npm install`
 
 ***
 
@@ -16,13 +18,14 @@
 
 ## Premières commandes à lancer
 `php artisan key:generate`
-
 `php artisan migrate`
 
 ***
 
 ## Pour démarrer le projet
 `php artisan serve`
+## Pour compiler js et sass
+`npm run watch`
 
 ***
 
