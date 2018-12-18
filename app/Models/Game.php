@@ -20,6 +20,18 @@ class Game extends Model
     /////////////////////
 
     /**
+     * Get users related to the game
+     *
+     * @access public
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\Models\User', 'game_user');
+    }
+
+    /**
      * Get roles related to the game
      *
      * @access public
