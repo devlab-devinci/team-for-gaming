@@ -28,6 +28,18 @@ class Type extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('App\Models\User', 'user_type');
+        return $this->belongsToMany('App\Models\User', 'type_user');
+    }
+
+    /**
+     * Get roles related to the type
+     *
+     * @access public
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function roles()
+    {
+        return $this->hasMany('App\Models\Role');
     }
 }

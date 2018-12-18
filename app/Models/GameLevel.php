@@ -28,7 +28,7 @@ class GameLevel extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function gameLevels()
+    public function game()
     {
         return $this->belongsTo('App\Models\Game');
     }

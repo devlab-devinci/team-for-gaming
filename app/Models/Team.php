@@ -12,6 +12,7 @@ class Team extends Model
      * @var array
      */
     protected $fillable = [
+        'game_id',
         'organisation_id',
         'name'
     ];
@@ -30,5 +31,17 @@ class Team extends Model
     public function organisation()
     {
         return $this->belongsTo('App\Models\Organisation');
+    }
+
+    /**
+     * Get game related to the game level
+     *
+     * @access public
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function game()
+    {
+        return $this->belongsTo('App\Models\Game');
     }
 }
