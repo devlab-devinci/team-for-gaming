@@ -18,6 +18,7 @@ class CreateRoleUserTable extends Migration
             $table->integer('user_id');
             $table->integer('role_id');
             $table->integer('team_id')->nullable();
+            $table->integer('organisation_id')->nullable();
             $table->timestamps();
 
             //$table->foreign('user_id')->references('id')->on('users');

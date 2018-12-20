@@ -49,11 +49,11 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @access public
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function roles()
     {
-        return $this->belongsToMany('App\Models\Role', 'role_user');
+        return $this->hasMany('App\Models\UserRole');
     }
 
     /**

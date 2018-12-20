@@ -30,4 +30,16 @@ class Organisation extends Model
     {
         return $this->hasMany('App\Models\Team');
     }
+
+    /**
+     * Get users related to the organisation
+     *
+     * @access public
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->hasMany('App\Models\UserRole');
+    }
 }
