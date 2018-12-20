@@ -44,4 +44,16 @@ class Team extends Model
     {
         return $this->belongsTo('App\Models\Game');
     }
+
+    /**
+     * Get users related to the team
+     *
+     * @access public
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->hasMany('App\Models\UserRole');
+    }
 }

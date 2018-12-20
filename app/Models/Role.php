@@ -50,10 +50,10 @@ class Role extends Model
      *
      * @access public
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function users()
     {
-        return $this->belongsToMany('App\Models\User', 'role_user');
+        return $this->hasMany('App\Models\UserRole');
     }
 }
