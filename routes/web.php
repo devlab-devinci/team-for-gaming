@@ -18,3 +18,14 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['namespace' => 'Home', 'prefix' => 'home', 'as' => 'home::'], function()
+{
+    Route::resource('game', 'GameController');
+
+    Route::resource('team', 'TeamController');
+
+    Route::resource('organisation', 'OrganisationController');
+
+    Route::resource('user', 'UserController');
+});

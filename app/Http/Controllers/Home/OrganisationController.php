@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Home;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-class TeamController extends Controller
+class OrganisationController extends Controller
 {
     /**
      * Display a listing of the resource.

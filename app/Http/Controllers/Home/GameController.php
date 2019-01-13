@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Home;
+
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-class OrganisationController extends Controller
+class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,8 @@ class OrganisationController extends Controller
      */
     public function index()
     {
-        //
+        dump("Game index");
+        die;
     }
 
     /**
@@ -66,7 +69,7 @@ class OrganisationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GamePostRequest $request, $id)
     {
         //
     }
