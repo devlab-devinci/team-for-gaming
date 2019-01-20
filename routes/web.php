@@ -19,7 +19,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['namespace' => 'Home', 'prefix' => 'home', 'as' => 'home::'], function()
+Route::group(['namespace' => 'Home', 'prefix' => 'home', 'as' => 'home.'], function()
 {
     Route::resource('game', 'GameController');
 
