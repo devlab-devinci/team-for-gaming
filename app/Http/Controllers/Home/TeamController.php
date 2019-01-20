@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Game;
+use App\Models\Role;
+use App\Models\Team;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
 {
@@ -15,7 +20,10 @@ class TeamController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $teams = $user->teams;
+
+        return view('home.team.index');
     }
 
     /**
@@ -25,7 +33,17 @@ class TeamController extends Controller
      */
     public function create()
     {
-        //
+        $user = Auth::user();
+
+        $games = Game::all()->pluck('name', 'id');
+        $roles = Role::all()->pluck('label', 'id');
+
+        $data = [
+            'games' => $games,
+            'roles' => $roles
+        ];
+
+        return view('home.team.create', $data);
     }
 
     /**
@@ -36,7 +54,24 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+
+        $team = new Team();
+
+        $team->name = $request->name;
+        $team->game_id = $request->game;
+
+        $team->save();
+
+        $role = new UserRole();
+
+        $role->user_id = $user->id;
+        $role->role_id = $request->role;
+        $role->team_id = $team->id;
+
+        $role->save();
+
+        return back();
     }
 
     /**
