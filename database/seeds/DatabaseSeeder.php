@@ -88,38 +88,138 @@ class GameTableSeeder extends Seeder {
         // Niveaux de jeu
         GameLevel::create([
             'game_id' => 1,
-            'label' => "Bronze",
+            'label' => "Fer I",
             'order' => 1
         ]);
         GameLevel::create([
             'game_id' => 1,
-            'label' => "Argent",
+            'label' => "Fer II",
             'order' => 2
         ]);
         GameLevel::create([
             'game_id' => 1,
-            'label' => "Or",
+            'label' => "Fer III",
             'order' => 3
         ]);
         GameLevel::create([
             'game_id' => 1,
-            'label' => "Platine",
+            'label' => "Fer IV",
             'order' => 4
         ]);
         GameLevel::create([
             'game_id' => 1,
-            'label' => "Diamant",
+            'label' => "Bronze I",
             'order' => 5
         ]);
         GameLevel::create([
             'game_id' => 1,
-            'label' => "Maître",
+            'label' => "Bronze II",
             'order' => 6
         ]);
         GameLevel::create([
             'game_id' => 1,
-            'label' => "Challenger",
+            'label' => "Bronze III",
             'order' => 7
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Bronze IV",
+            'order' => 8
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Argent I",
+            'order' => 9
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Argent II",
+            'order' => 10
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Argent III",
+            'order' => 11
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Argent IV",
+            'order' => 12
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Or I",
+            'order' => 13
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Or II",
+            'order' => 14
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Or III",
+            'order' => 15
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Or IV",
+            'order' => 16
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Platine I",
+            'order' => 17
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Platine II",
+            'order' => 18
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Platine III",
+            'order' => 19
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Platine IV",
+            'order' => 20
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Diamant I",
+            'order' => 21
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Diamant II",
+            'order' => 22
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Diamant III",
+            'order' => 23
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Diamant IV",
+            'order' => 24
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Maître",
+            'order' => 25
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Grand Maître",
+            'order' => 26
+        ]);
+        GameLevel::create([
+            'game_id' => 1,
+            'label' => "Challenger",
+            'order' => 27
         ]);
 
         /// Counter-Strike : Global Offensive
