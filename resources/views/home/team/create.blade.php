@@ -31,3 +31,7 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+    <script src="{{ asset('js/home/team/create.js') }}" defer></script>
+@endsection

@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\Auth;
 class TeamController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('verified');
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -36,7 +47,7 @@ class TeamController extends Controller
         $user = Auth::user();
 
         $games = Game::all()->pluck('name', 'id');
-        $roles = Role::all()->pluck('label', 'id');
+        $roles = Role::where('game_id', 1)->get()->pluck('label', 'id');
 
         $data = [
             'games' => $games,
@@ -44,6 +55,16 @@ class TeamController extends Controller
         ];
 
         return view('home.team.create', $data);
+    }
+
+    /**
+     * Get game roles
+     */
+    public function getGameRoles($gameId)
+    {
+        $roles = Role::where('game_id', $gameId)->get();
+
+        return $roles;
     }
 
     /**

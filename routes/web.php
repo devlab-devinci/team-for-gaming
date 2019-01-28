@@ -21,11 +21,17 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['namespace' => 'Home', 'prefix' => 'home', 'as' => 'home.'], function()
 {
+    // Games
     Route::resource('game', 'GameController');
 
+    // Teams
     Route::resource('team', 'TeamController');
 
+    Route::get('getGameRoles/{gameId}', 'TeamController@getGameRoles');
+
+    // Organisations
     Route::resource('organisation', 'OrganisationController');
 
+    // Settings
     Route::resource('user', 'UserController');
 });
