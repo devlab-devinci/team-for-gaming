@@ -19,13 +19,48 @@
     <!-- Styles -->
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 </head>
-<body class="dashboard-body">
-    <div class="sidebar">
-        <div>
-            <h3>User Name</h3>
-        </div>
-        <a class="active" href="/dashboard">Joueur</a>
-    </div>
+<body class="dashboard-body"><nav class="main-menu">
+        <ul>
+            <li>
+                <a href="http://justinfarrow.com">
+                    <i class="fa fa-gamepad fa-2x"></i>
+                    <span class="nav-text">Joueur</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-group fa-2x"></i>
+                    <span class="nav-text">Equipe</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-trello fa-2x"></i>
+                    <span class="nav-text">Structure</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-calendar fa-2x"></i>
+                    <span class="nav-text">Planing</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-gear fa-2x"></i>
+                    <span class="nav-text">Paramètres</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="logout">
+            <li>
+                <a href="#">
+                    <i class="fa fa-power-off fa-2x"></i>
+                    <span class="nav-text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <div class="content">
         @yield('content')
