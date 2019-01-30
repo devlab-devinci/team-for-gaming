@@ -1,37 +1,41 @@
-@extends('layouts.app')
+<div class="modal fade" id="createTeamModal" tabindex="-1" role="dialog" aria-labelledby="createTeamModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Teams create</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ Form::open(array('route' => 'home.team.store', 'method' => 'POST')) }}
 
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Teams create</div>
-
-                    <div class="card-body">
-                        {{ Form::open(array('route' => 'home.team.store', 'method' => 'POST')) }}
-
-                        <div>
-                            {{ Form::label('name', "Nom de l'équipe") }}
-                            {{ Form::text('name') }}
-                        </div>
-                        <div>
-                            {{ Form::label('game', "Jeu") }}
-                            {{ Form::select('game', $games) }}
-                        </div>
-                        <div>
-                            {{ Form::label('role', "Rôle") }}
-                            {{ Form::select('role', $roles) }}
-                        </div>
-                        {{ Form::submit("Créer") }}
-
-                        {{ Form::close() }}
+                <div class="form-group">
+                    {{ Form::label('name', "Nom de l'équipe") }}
+                    {{ Form::text('name', "", ['class' =>  "form-control"]) }}
+                </div>
+                <div class="form-group">
+                    {{ Form::label('game', "Jeu") }}
+                    {{ Form::select('game', $games, null, ['class' =>  "form-control"]) }}
+                </div>
+                <div>
+                    <p>Joueurs</p>
+                    <div id="roles">
+                        @foreach($roles as $role)
+                            <div class="form-group mb-2">
+                                {{ Form::label('roles', $role->label) }}
+                                {{ Form::text('roles['.$role->id.']', "", ['class' =>  "form-control"]) }}
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{ Form::submit("Créer", ['class' => "btn btn-primary"]) }}
+
+                {{ Form::close() }}
+            </div>
         </div>
     </div>
-@endsection
-
-@section('js')
-    <script src="{{ asset('js/home/team/create.js') }}" defer></script>
-@endsection
+</div>

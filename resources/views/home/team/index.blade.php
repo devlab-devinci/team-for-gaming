@@ -1,19 +1,31 @@
-@extends('layouts.app')
+@extends('layouts.navbar')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Teams</div>
-
-                    <div class="card-body">
-                        <a href="{{ route('home.team.create') }}">
-                            <button >Ajouter</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('message') }}
         </div>
-    </div>
+    @elseif (session('error'))
+        <div class="alert alert-danger">
+            {{ session('message') }}
+            @if (session('unknownUsers'))
+                <ul>
+                    @foreach(session('unknownUsers') as $username)
+                        <li>{{ $username }}</li>
+                    @endforeach
+                </ul>
+            @endif
+        </div>
+    @endif
+
+    <h2>Teams</h2>
+
+    <button id="create-team" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal">Créer</button>
+
+    @include('home.team.create')
+@endsection
+
+@section('js')
+    <script src="{{ asset('js/home/team/index.js') }}" defer></script>
+    <script src="{{ asset('js/home/team/create.js') }}" defer></script>
 @endsection

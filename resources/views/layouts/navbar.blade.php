@@ -25,10 +25,12 @@
             <h3>User Name</h3>
         </div>
         <a class="active" href="/dashboard">Joueur</a>
+        <a href="{{ route('home.team.index') }}">Équipes</a>
     </div>
 
     <div class="content">
         @yield('content')
     </div>
+    @yield('js')
 </body>
 </html>

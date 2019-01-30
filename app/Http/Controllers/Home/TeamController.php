@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Game;
 use App\Models\Role;
 use App\Models\Team;
+use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,15 @@ class TeamController extends Controller
         $user = Auth::user();
         $teams = $user->teams;
 
-        return view('home.team.index');
+        $games = Game::all()->pluck('name', 'id');
+        $roles = Role::where('game_id', 1)->get();
+
+        $data = [
+            'games' => $games,
+            'roles' => $roles
+        ];
+
+        return view('home.team.index', $data);
     }
 
     /**
@@ -44,17 +53,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
-
-        $games = Game::all()->pluck('name', 'id');
-        $roles = Role::where('game_id', 1)->get()->pluck('label', 'id');
-
-        $data = [
-            'games' => $games,
-            'roles' => $roles
-        ];
-
-        return view('home.team.create', $data);
+        //
     }
 
     /**
@@ -75,8 +74,6 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-
         $team = new Team();
 
         $team->name = $request->name;
@@ -84,15 +81,36 @@ class TeamController extends Controller
 
         $team->save();
 
-        $role = new UserRole();
+        $unknownUsers = [];
 
-        $role->user_id = $user->id;
-        $role->role_id = $request->role;
-        $role->team_id = $team->id;
+        foreach ($request->roles as $roleId => $username) {
+            $user = User::where('username', $username)->first();
 
-        $role->save();
+            if (!empty($user)) {
+                $userRole = new UserRole();
 
-        return back();
+                $userRole->user_id = $user->id;
+                $userRole->role_id = $roleId;
+                $userRole->team_id = $team->id;
+
+                $userRole->save();
+            } else {
+                $unknownUsers[] = $username;
+            }
+        };
+
+        if (empty($unknownUsers)) {
+            return back()->with([
+                'success' => true,
+                'message' => "Success"
+            ]);
+        } else {
+            return back()->with([
+                'error' => true,
+                'message' => "Les utilisateurs suivants n'existent pas sur notre site :",
+                'unknownUsers' => $unknownUsers
+            ]);
+        }
     }
 
     /**

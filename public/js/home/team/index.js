@@ -60,42 +60,23 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 47);
+/******/ 	return __webpack_require__(__webpack_require__.s = 45);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 47:
+/***/ 45:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(48);
+module.exports = __webpack_require__(46);
 
 
 /***/ }),
 
-/***/ 48:
+/***/ 46:
 /***/ (function(module, exports) {
 
-var selectedGameId = 0;
-var gameRoles = {};
 
-$('select#game').change(function () {
-    selectedGameId = this.value;
-
-    $.ajax({
-        method: "GET",
-        url: window.location.origin + "/home/getGameRoles/" + selectedGameId,
-        success: function success(roles) {
-            gameRoles = roles;
-
-            $('#roles').html('');
-
-            roles.forEach(function (role) {
-                $('#roles').append("<label for=\"roles\">" + role.label + "</label>" + "<input class=\"form-control mb-2\" name=\"roles[" + role.id + "]\" type=\"text\" value=\"\">");
-            });
-        }
-    });
-});
 
 /***/ })
 
