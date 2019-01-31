@@ -60,23 +60,35 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 45);
+/******/ 	return __webpack_require__(__webpack_require__.s = 43);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 45:
+/***/ 43:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(46);
+module.exports = __webpack_require__(44);
 
 
 /***/ }),
 
-/***/ 46:
+/***/ 44:
 /***/ (function(module, exports) {
 
+$(document).on('click', ".addMember", function () {
+    var select = document.createElement("select");
+    select.classList.add("addMember");
 
+    roles.forEach(function (role) {
+        var option = document.createElement("option");
+        option.value = role.id;
+        option.text = role.label;
+        select.append(option);
+    });
+
+    $("#roles").append(select);
+});
 
 /***/ })
 

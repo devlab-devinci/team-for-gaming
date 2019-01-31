@@ -20,12 +20,23 @@
 
     <h2>Teams</h2>
 
-    <button id="create-team" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal">Créer</button>
+    <div class="d-flex align-items-center">
+        @foreach($teams as $team)
+            <div class="mr-4">
+                <a href="{{ route('home.team.show', $team->team->id) }}">
+                    <p>{{ $team->team->name }}</p>
+                    <p>{{ $team->role->label }}</p>
+                    <p>{{ $games[$team->team->game_id] }}</p>
+                </a>
+            </div>
+        @endforeach
 
-    @include('home.team.create')
+        <button id="create-team" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal">Créer</button>
+
+        @include('home.team.create')
+    </div>
 @endsection
 
 @section('js')
-    <script src="{{ asset('js/home/team/index.js') }}" defer></script>
     <script src="{{ asset('js/home/team/create.js') }}" defer></script>
 @endsection

@@ -17,11 +17,9 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/dashboard', function () {
-    return view('user-interface.dashboard');
-});
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['namespace' => 'Home', 'prefix' => 'home', 'as' => 'home.'], function()
 {

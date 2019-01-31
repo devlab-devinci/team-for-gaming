@@ -26,6 +26,7 @@
         </div>
         <a class="active" href="/dashboard">Joueur</a>
         <a href="{{ route('home.team.index') }}">Équipes</a>
+        <a href="{{ route('logout') }}">Logout</a>
     </div>
 
     <div class="content">

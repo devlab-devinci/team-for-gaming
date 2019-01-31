@@ -12,6 +12,8 @@ use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Carbon\Carbon;
+
 class TeamController extends Controller
 {
     /**
@@ -33,12 +35,14 @@ class TeamController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $teams = $user->teams;
+
+        $teams = UserRole::where('user_id', $user->id)->whereNotNull('team_id')->get();
 
         $games = Game::all()->pluck('name', 'id');
         $roles = Role::where('game_id', 1)->get();
 
         $data = [
+            'teams' => $teams,
             'games' => $games,
             'roles' => $roles
         ];
@@ -121,7 +125,21 @@ class TeamController extends Controller
      */
     public function show($id)
     {
-        //
+        $team = Team::find($id);
+
+        $users = UserRole::where('team_id', $id)->get();
+
+        $games = Game::all()->pluck('name', 'id');
+        $roles = Role::where('game_id', $team->game->id)->get();
+
+        $data = [
+            'team' => $team,
+            'users' => $users,
+            'games' => $games,
+            'roles' => $roles
+        ];
+
+        return view('home.team.show', $data);
     }
 
     /**
