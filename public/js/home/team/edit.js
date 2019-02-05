@@ -76,9 +76,19 @@ module.exports = __webpack_require__(44);
 /***/ 44:
 /***/ (function(module, exports) {
 
-$(document).on('click', ".addMember", function () {
+var newMembersCount = 0;
+
+$(document).on('click', ".new-member", function () {
+    var _select$classList, _formCheckDiv$classLi;
+
+    newMembersCount++;
+
+    var formGroupDiv = document.createElement("div");
+    formGroupDiv.classList.add("form-group");
+
     var select = document.createElement("select");
-    select.classList.add("addMember");
+    select.name = "roles[new-" + newMembersCount + "][roleId]";
+    (_select$classList = select.classList).add.apply(_select$classList, ["form-control", "mb-2"]);
 
     roles.forEach(function (role) {
         var option = document.createElement("option");
@@ -87,7 +97,36 @@ $(document).on('click', ".addMember", function () {
         select.append(option);
     });
 
-    $("#roles").append(select);
+    formGroupDiv.append(select);
+
+    var input = document.createElement("input");
+    input.classList.add("form-control");
+    input.name = "roles[new-" + newMembersCount + "][username]";
+    input.type = "text";
+
+    formGroupDiv.append(input);
+
+    var formCheckDiv = document.createElement("div");
+    (_formCheckDiv$classLi = formCheckDiv.classList).add.apply(_formCheckDiv$classLi, ["form-check", "mt-2", "mb-3"]);
+
+    var radio = document.createElement("input");
+    radio.classList.add("form-check-input");
+    radio.name = "roles[new-" + newMembersCount + "][admin]";
+    radio.value = 1;
+    radio.type = "checkbox";
+
+    formCheckDiv.append(radio);
+
+    var radioLabel = document.createElement("label");
+    radioLabel.classList.add("form-check-label");
+    radioLabel.setAttribute('for', "roles[new-" + newMembersCount + "][admin]");
+    radioLabel.innerHTML = "En tant qu'administrateur";
+
+    formCheckDiv.append(radioLabel);
+
+    formGroupDiv.append(formCheckDiv);
+
+    $("#roles").append(formGroupDiv);
 });
 
 /***/ })

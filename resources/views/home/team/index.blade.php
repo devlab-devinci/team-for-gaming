@@ -5,8 +5,8 @@
         <div class="alert alert-success">
             {{ session('message') }}
         </div>
-    @elseif (session('error'))
-        <div class="alert alert-danger">
+    @elseif (session('warning'))
+        <div class="alert alert-warning">
             {{ session('message') }}
             @if (session('unknownUsers'))
                 <ul>
@@ -16,17 +16,21 @@
                 </ul>
             @endif
         </div>
+    @elseif (session('error'))
+        <div class="alert alert-danger">
+            {{ session('message') }}
+        </div>
     @endif
 
     <h2>Teams</h2>
 
     <div class="d-flex align-items-center">
-        @foreach($teams as $team)
+        @foreach($userRoles as $userRole)
             <div class="mr-4">
-                <a href="{{ route('home.team.show', $team->team->id) }}">
-                    <p>{{ $team->team->name }}</p>
-                    <p>{{ $team->role->label }}</p>
-                    <p>{{ $games[$team->team->game_id] }}</p>
+                <a href="{{ route('home.team.show', $userRole->team->id) }}">
+                    <p>{{ $userRole->team->name }}</p>
+                    <p>{{ $userRole->role->label }}</p>
+                    <p>{{ $games[$userRole->team->game_id] }}</p>
                 </a>
             </div>
         @endforeach
@@ -38,5 +42,9 @@
 @endsection
 
 @section('js')
+    <script>
+        var roles = {!! $gameRoles !!}
+    </script>
+
     <script src="{{ asset('js/home/team/create.js') }}" defer></script>
 @endsection

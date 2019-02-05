@@ -20,14 +20,8 @@
                 </div>
                 <div>
                     <p>Joueurs</p>
-                    <div id="roles">
-                        @foreach($roles as $role)
-                            <div class="form-group mb-2">
-                                {{ Form::label('roles', $role->label) }}
-                                {{ Form::text('roles['.$role->id.']', "", ['class' =>  "form-control"]) }}
-                            </div>
-                        @endforeach
-                    </div>
+                    <div id="roles"></div>
+                    <p class="new-member">+ Ajouter un membre</p>
                 </div>
             </div>
             <div class="modal-footer">

@@ -17,7 +17,7 @@ class CreateTeamsTable extends Migration
             $table->increments('id');
             $table->integer('game_id');
             $table->integer('organisation_id')->nullable();
-            $table->string('name', 255);
+            $table->string('name')->unique();
             $table->timestamps();
 
             //$table->foreign('organisation_id')->references('id')->on('organisations');

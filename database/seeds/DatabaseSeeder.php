@@ -88,6 +88,12 @@ class GameTableSeeder extends Seeder {
         DB::table('roles')->delete();
         DB::table('game_levels')->delete();
 
+        // Creator role
+        Role::create([
+            'type_id' => 1,
+            'label' => "Créateur"
+        ]);
+
         /// League Of Legends
         // Jeu
         Game::create(['name' => "League Of Legends"]);

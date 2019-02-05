@@ -5,10 +5,10 @@
     <h3>{{ $team->game->name }}</h3>
 
     <div class="d-flex align-items-center">
-        @foreach($users as $user)
+        @foreach($usersRole as $userRole)
             <div class="mr-4">
-                <p>{{ $user->user->username }}</p>
-                <p>{{ $user->role->label }}</p>
+                <p>{{ $userRole->user->username }}</p>
+                <p>{{ $userRole->role->label }}</p>
             </div>
         @endforeach
 
@@ -20,7 +20,7 @@
 
 @section('js')
     <script>
-        var roles = {!! $roles !!}
+        var roles = {!! $gameRoles !!}
     </script>
 
     <script src="{{ asset('js/home/team/edit.js') }}" defer></script>
