@@ -13,9 +13,9 @@
         @endforeach
 
         <button id="edit-team" type="button" class="btn btn-primary" data-toggle="modal" data-target="#editTeamModal">Créer</button>
-
-        @include('home.team.edit')
     </div>
+
+    @include('home.team.edit')
 @endsection
 
 @section('js')

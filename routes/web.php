@@ -31,6 +31,8 @@ Route::group(['namespace' => 'Home', 'prefix' => 'home', 'as' => 'home.'], funct
 
     Route::get('getGameRoles/{gameId}', 'TeamController@getGameRoles');
 
+    Route::get('answerTeamInvitation/{userRoleId}/{status}', 'TeamController@answerTeamInvitation');
+
     // Organisations
     Route::resource('organisation', 'OrganisationController');
 

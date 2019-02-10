@@ -19,7 +19,8 @@ class CreateRoleUserTable extends Migration
             $table->integer('role_id');
             $table->integer('team_id')->nullable();
             $table->integer('organisation_id')->nullable();
-            $table->boolean('admin');
+            $table->boolean('admin')->default(0);
+            $table->boolean('status')->default(0);
             $table->timestamps();
 
             //$table->foreign('user_id')->references('id')->on('users');
