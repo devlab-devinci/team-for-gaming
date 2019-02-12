@@ -25,15 +25,17 @@
     <h2>Teams</h2>
 
     <div class="d-flex align-items-center">
-        @foreach($userRoles as $userRole)
-            <div class="mr-4">
-                <a href="{{ route('home.team.show', $userRole->team->id) }}">
-                    <h4>{{ $userRole->team->name }}</h4>
-                    <p>{{ $userRole->role->label }}</p>
-                    <p>{{ $games[$userRole->team->game_id] }}</p>
-                </a>
-            </div>
-        @endforeach
+        <div id="teams" class="d-flex">
+            @foreach($userRoles as $userRole)
+                <div class="mr-4">
+                    <a href="{{ route('home.team.show', $userRole->team->id) }}">
+                        <h4>{{ $userRole->team->name }}</h4>
+                        <p>{{ $userRole->role->label }}</p>
+                        <p>{{ $games[$userRole->team->game_id] }}</p>
+                    </a>
+                </div>
+            @endforeach
+        </div>
 
         <button id="create-team" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal">Créer</button>
     </div>
@@ -43,9 +45,9 @@
         @foreach($pendingUserRoles as $pendingUserRole)
             <div class="mr-4" data-user-role="{{ $pendingUserRole->id }}">
                 <h4>
-                    {{ $pendingUserRole->team->name }}
-                    <i class="fa fa-check answer-team-invitation" data-status="1"></i>
-                    <i class="fa fa-times answer-team-invitation" data-status="0"></i>
+                    {{ $pendingUserRole->team->name }} - {{ $pendingUserRole->role->label }}
+                    <i class="answer-team-invitation fa fa-check" data-status="1"></i>
+                    <i class="answer-team-invitation fa fa-times" data-status="0"></i>
                 </h4>
             </div>
         @endforeach

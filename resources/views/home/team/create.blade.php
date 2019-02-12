@@ -16,16 +16,16 @@
                 </div>
                 <div class="form-group">
                     {{ Form::label('game', "Jeu") }}
-                    {{ Form::select('game', $games, null, ['class' =>  "form-control"]) }}
+                    {{ Form::select('game', $games, null, ['class' =>  ["pointer", "form-control"]]) }}
                 </div>
                 <div>
                     <p>Joueurs</p>
                     <div id="roles"></div>
-                    <p class="new-member">+ Ajouter un membre</p>
+                    <p class="new-member pointer">+ Ajouter un membre</p>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                 {{ Form::submit("Créer", ['class' => "btn btn-primary"]) }}
 
                 {{ Form::close() }}

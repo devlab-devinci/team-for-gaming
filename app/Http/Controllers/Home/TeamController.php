@@ -79,9 +79,17 @@ class TeamController extends Controller
             $userRole->status = 1;
 
             $userRole->save();
+
+            $newRole = [
+                'team' => $userRole->team,
+                'role' => $userRole->role->label,
+                'game' => $userRole->team->game->name
+            ];
         } else {
             $userRole->delete();
         }
+
+        return response()->json(['status' => $status, 'newRole' => $status ? $newRole : null]);
     }
 
     /**
@@ -112,6 +120,13 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
+        if(count($request->roles) != count(array_unique(array_column($request->roles, 'username')))) {
+            return back()->with([
+                'error' => true,
+                'message' => "Un utilisateur ne peut pas avoir plusieurs rôles dans une même équipe."
+            ]);
+        }
+
         $team = new Team();
 
         $team->name = $request->name;
@@ -125,6 +140,7 @@ class TeamController extends Controller
         $userRole->user_id = Auth::user()->id;
         $userRole->role_id = Role::where('type_id', 1)->first()->id;
         $userRole->team_id = $team->id;
+        $userRole->status  = 1;
         $userRole->admin   = 1;
 
         $userRole->save();
@@ -139,6 +155,7 @@ class TeamController extends Controller
                 $userRole->user_id = $user->id;
                 $userRole->role_id = $role['roleId'];
                 $userRole->team_id = $team->id;
+                $userRole->status  = Auth::user()->id == $user->id;
                 $userRole->admin   = !empty($role['admin']) ? true : false;
 
                 $userRole->save();
@@ -152,13 +169,29 @@ class TeamController extends Controller
             ['status', 1]
         ])
             ->whereNotNull('team_id')
-            ->get();
+            ->join('teams', 'role_user.team_id', '=', 'teams.id')
+            ->select('role_user.*', 'teams.game_id')
+            ->orderBy('game_id', 'asc')
+            ->get()
+            ->unique('team_id');
+
+        $pendingUserRoles = UserRole::where([
+            ['user_id', Auth::user()->id],
+            ['status', 0]
+        ])
+            ->whereNotNull('team_id')
+            ->join('teams', 'role_user.team_id', '=', 'teams.id')
+            ->select('role_user.*', 'teams.game_id')
+            ->orderBy('game_id', 'asc')
+            ->get()
+            ->unique('team_id');
 
         $games = Game::all()->pluck('name', 'id');
         $gameRoles = Role::where('game_id', 1)->get();
 
         $data = [
             'userRoles' => $userRoles,
+            'pendingUserRoles' => $pendingUserRoles,
             'games' => $games,
             'gameRoles' => $gameRoles
         ];
@@ -230,18 +263,18 @@ class TeamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $team = Team::find($id);
-
-        if ($team->name != $request->name) {
-            $team->name = $request->name;
-            $team->save();
-        }
-
         if(count($request->roles) != count(array_unique(array_column($request->roles, 'username')))) {
             return back()->with([
                 'error' => true,
                 'message' => "Un utilisateur ne peut pas avoir plusieurs rôles dans une même équipe."
             ]);
+        }
+
+        $team = Team::find($id);
+
+        if ($team->name != $request->name) {
+            $team->name = $request->name;
+            $team->save();
         }
 
         $unknownUsers = [];
