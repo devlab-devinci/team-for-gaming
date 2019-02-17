@@ -163,33 +163,13 @@ class TeamController extends Controller
             }
         };
 
-        $teams = UserRole::where('user_id', Auth::user()->id)
-            ->whereNotNull('team_id')
-            ->join('teams', 'role_user.team_id', '=', 'teams.id')
-            ->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->select('role_user.*', 'teams.game_id', 'teams.name as team_name', 'roles.label as role_label')
-            ->orderBy('game_id', 'asc')
-            ->orderBy('team_name', 'asc')
-            ->orderBy('id', 'asc')
-            ->get()
-            ->groupBy('team_id');
-
-        $games = Game::all()->pluck('name', 'id');
-        $gameRoles = Role::where('game_id', 1)->pluck('label', 'id');
-
-        $data = [
-            'teams' => $teams,
-            'games' => $games,
-            'gameRoles' => $gameRoles
-        ];
-
         if (empty($unknownUsers)) {
-            return view('home.team.index', $data)->with([
+            return redirect()->route('home.team.index')->with([
                 'success' => true,
                 'message' => "Votre équipe a bien été créée."
             ]);
         } else {
-            return view('home.team.index', $data)->with([
+            return redirect()->route('home.team.index')->with([
                 'warning' => true,
                 'message' => "Les utilisateurs suivants n'existent pas sur notre site :",
                 'unknownUsers' => $unknownUsers
@@ -316,34 +296,13 @@ class TeamController extends Controller
             }
         };
 
-        $team = Team::find($id);
-
-        $usersRole = UserRole::where('team_id', $id)
-            ->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->select('role_user.*', 'roles.type_id', 'roles.label')
-            ->orderBy('type_id', 'ASC')
-            ->orderBy('label', 'ASC')
-            ->get();
-
-        $games = Game::all()->pluck('name', 'id');
-        $gameRoles = Role::where('game_id', $team->game->id)->pluck('label', 'id');
-
-        $data = [
-            'team' => $team,
-            'usersRole' => $usersRole,
-            'games' => $games,
-            'gameRoles' => $gameRoles,
-            'isAdmin' => self::isAdmin($id),
-            'isCreator' => self::isCreator($id),
-        ];
-
         if (empty($unknownUsers)) {
-            return view('home.team.show', $data)->with([
+            return redirect()->route('home.team.show', [$id])->with([
                 'success' => true,
                 'message' => "Votre équipe a bien été mise à jour."
             ]);
         } elseif (!empty($unknownUsers)) {
-            return view('home.team.show', $data)->with([
+            return redirect()->route('home.team.show', [$id])->with([
                 'warning' => true,
                 'message' => "Les utilisateurs suivants n'existent pas sur notre site :",
                 'users' => $unknownUsers
@@ -365,27 +324,7 @@ class TeamController extends Controller
             $team = Team::find($id);
 
             if ($team->delete()) {
-                $teams = UserRole::where('user_id', Auth::user()->id)
-                    ->whereNotNull('team_id')
-                    ->join('teams', 'role_user.team_id', '=', 'teams.id')
-                    ->join('roles', 'role_user.role_id', '=', 'roles.id')
-                    ->select('role_user.*', 'teams.game_id', 'teams.name as team_name', 'roles.label as role_label')
-                    ->orderBy('game_id', 'asc')
-                    ->orderBy('team_name', 'asc')
-                    ->orderBy('id', 'asc')
-                    ->get()
-                    ->groupBy('team_id');
-
-                $games = Game::all()->pluck('name', 'id');
-                $gameRoles = Role::where('game_id', 1)->pluck('label', 'id');
-
-                $data = [
-                    'teams' => $teams,
-                    'games' => $games,
-                    'gameRoles' => $gameRoles
-                ];
-
-                return view('home.team.index', $data)->with([
+                return redirect()->route('home.team.index')->with([
                     'success' => true,
                     'message' => "Votre équipe a bien été supprimée."
                 ]);
