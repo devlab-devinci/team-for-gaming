@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 
 class OrganisationController extends Controller

@@ -20,15 +20,27 @@ class Organisation extends Model
     /////////////////////
 
     /**
+     * Get teams invitations related to the organisation
+     *
+     * @access public
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function invitations()
+    {
+        return $this->hasMany('App\Models\TeamOrganisation')->where('status', 0);
+    }
+
+    /**
      * Get teams related to the organisation
      *
      * @access public
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function teams()
     {
-        return $this->hasMany('App\Models\Team');
+        return $this->hasMany('App\Models\TeamOrganisation')->where('status', 1);
     }
 
     /**
