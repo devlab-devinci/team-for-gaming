@@ -2,7 +2,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Teams create</h5>
+                <h5 class="modal-title">Création d'équipe</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -11,15 +11,15 @@
                 {{ Form::open(array('route' => 'home.team.store', 'method' => 'POST')) }}
 
                 <div class="form-group">
-                    {{ Form::label('name', "Nom de l'équipe") }}
+                    <h5 class="mb-3">Nom de l'équipe</h5>
                     {{ Form::text('name', "", ['class' =>  "form-control"]) }}
                 </div>
                 <div class="form-group">
-                    {{ Form::label('game', "Jeu") }}
+                    <h5 class="mb-3">Jeu</h5>
                     {{ Form::select('game', $games, null, ['class' =>  ["pointer", "form-control"]]) }}
                 </div>
                 <div>
-                    <p>Joueurs</p>
+                    <h5 class="mb-3">Joueurs</h5>
                     <div id="roles"></div>
                     <p class="new-member pointer">+ Ajouter un membre</p>
                 </div>

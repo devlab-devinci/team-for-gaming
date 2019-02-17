@@ -1,24 +1,31 @@
-let selectedGameId = 0;
 let newMembersCount = 0;
 
-$('select#game').change(function() {
-    selectedGameId = this.value;
+$('select[name=game]').change(function() {
     newMembersCount = 0;
 
     $.ajax({
         method: "GET",
-        url: window.location.origin + "/home/getGameRoles/" + selectedGameId,
+        url: window.location.origin + "/home/getGameRoles/" + this.value,
         success: function(gameRoles) {
             roles = gameRoles;
 
-            $('#roles').html('');
+            $.each($(".role-select"), function (index, select) {
+                $(select).html("");
+
+                $.each(roles, function (roleId, roleLabel) {
+                    let option = document.createElement("option");
+                    option.value = roleId;
+                    option.text = roleLabel;
+                    select.append(option);
+                });
+            })
         },
     });
 });
 
 $(document).on('click', ".new-member", function () {
     newMembersCount++;
-    
+
     let formGroupDiv = document.createElement("div");
     formGroupDiv.classList.add(...["form-group", "d-flex"]);
 
@@ -26,13 +33,13 @@ $(document).on('click', ".new-member", function () {
     formInputsDiv.classList.add(...["flex-column", "flex-fill"]);
 
     let select = document.createElement("select");
-    select.name = "roles[" + newMembersCount + "][roleId]";
-    select.classList.add(...["pointer", "form-control", "mb-2"]);
+    select.name = "roles[new-" + newMembersCount + "][roleId]";
+    select.classList.add(...["pointer", "role-select", "form-control", "mb-2"]);
 
-    roles.forEach(function (role) {
+    $.each(roles, function (roleId, roleLabel) {
         let option = document.createElement("option");
-        option.value = role.id;
-        option.text = role.label;
+        option.value = roleId;
+        option.text = roleLabel;
         select.append(option);
     });
 
@@ -40,7 +47,7 @@ $(document).on('click', ".new-member", function () {
 
     let input = document.createElement("input");
     input.classList.add("form-control");
-    input.name = "roles[" + newMembersCount + "][username]";
+    input.name = "roles[new-" + newMembersCount + "][username]";
     input.type = "text";
 
     formInputsDiv.append(input);
@@ -50,7 +57,7 @@ $(document).on('click', ".new-member", function () {
 
     let radio = document.createElement("input");
     radio.classList.add(...["pointer", "form-check-input"]);
-    radio.name = "roles[" + newMembersCount + "][admin]";
+    radio.name = "roles[new-" + newMembersCount + "][admin]";
     radio.value = 1;
     radio.type = "checkbox";
 
@@ -58,7 +65,7 @@ $(document).on('click', ".new-member", function () {
 
     let radioLabel = document.createElement("label");
     radioLabel.classList.add("form-check-label");
-    radioLabel.setAttribute('for', "roles[" + newMembersCount + "][admin]");
+    radioLabel.setAttribute('for', "roles[new-" + newMembersCount + "][admin]");
     radioLabel.innerHTML = "En tant qu'administrateur";
 
     check.append(radioLabel);

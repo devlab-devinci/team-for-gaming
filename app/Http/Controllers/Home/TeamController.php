@@ -34,34 +34,22 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $userRoles = UserRole::where([
-            ['user_id', Auth::user()->id],
-            ['status', 1]
-        ])
+        $teams = UserRole::where('user_id', Auth::user()->id)
             ->whereNotNull('team_id')
             ->join('teams', 'role_user.team_id', '=', 'teams.id')
-            ->select('role_user.*', 'teams.game_id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->select('role_user.*', 'teams.game_id', 'teams.name as team_name', 'roles.label as role_label')
             ->orderBy('game_id', 'asc')
+            ->orderBy('team_name', 'asc')
+            ->orderBy('id', 'asc')
             ->get()
-            ->unique('team_id');
-
-        $pendingUserRoles = UserRole::where([
-            ['user_id', Auth::user()->id],
-            ['status', 0]
-        ])
-            ->whereNotNull('team_id')
-            ->join('teams', 'role_user.team_id', '=', 'teams.id')
-            ->select('role_user.*', 'teams.game_id')
-            ->orderBy('game_id', 'asc')
-            ->get()
-            ->unique('team_id');
+            ->groupBy('team_id');
 
         $games = Game::all()->pluck('name', 'id');
-        $gameRoles = Role::where('game_id', 1)->get();
+        $gameRoles = Role::where('game_id', 1)->pluck('label', 'id');
 
         $data = [
-            'userRoles' => $userRoles,
-            'pendingUserRoles' => $pendingUserRoles,
+            'teams' => $teams,
             'games' => $games,
             'gameRoles' => $gameRoles
         ];
@@ -71,6 +59,9 @@ class TeamController extends Controller
 
     /**
      * Answer team invitation
+     *
+     * @param  int  $userRoleId, int $status
+     * @return \Illuminate\Http\Response
      */
     public function answerTeamInvitation($userRoleId, $status) {
         $userRole = UserRole::find($userRoleId);
@@ -94,10 +85,13 @@ class TeamController extends Controller
 
     /**
      * Get game roles
+     *
+     * @param  int  $gameId
+     * @return Object
      */
     public function getGameRoles($gameId)
     {
-        $roles = Role::where('game_id', $gameId)->get();
+        $roles = Role::where('game_id', $gameId)->pluck('label', 'id');
 
         return $roles;
     }
@@ -120,10 +114,15 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        if(count($request->roles) != count(array_unique(array_column($request->roles, 'username')))) {
+        if(!empty($request->roles) && count($request->roles) != count(array_unique(array_column($request->roles, 'username')))) {
             return back()->with([
                 'error' => true,
                 'message' => "Un utilisateur ne peut pas avoir plusieurs rôles dans une même équipe."
+            ]);
+        } elseif (empty($request->roles)) {
+            return back()->with([
+                'error' => true,
+                'message' => "Il n'y a aucun membre dans ton équipe."
             ]);
         }
 
@@ -156,7 +155,7 @@ class TeamController extends Controller
                 $userRole->role_id = $role['roleId'];
                 $userRole->team_id = $team->id;
                 $userRole->status  = Auth::user()->id == $user->id;
-                $userRole->admin   = !empty($role['admin']) ? true : false;
+                $userRole->admin   = !empty($role['admin']);
 
                 $userRole->save();
             } else {
@@ -164,34 +163,22 @@ class TeamController extends Controller
             }
         };
 
-        $userRoles = UserRole::where([
-            ['user_id', Auth::user()->id],
-            ['status', 1]
-        ])
+        $teams = UserRole::where('user_id', Auth::user()->id)
             ->whereNotNull('team_id')
             ->join('teams', 'role_user.team_id', '=', 'teams.id')
-            ->select('role_user.*', 'teams.game_id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->select('role_user.*', 'teams.game_id', 'teams.name as team_name', 'roles.label as role_label')
             ->orderBy('game_id', 'asc')
+            ->orderBy('team_name', 'asc')
+            ->orderBy('id', 'asc')
             ->get()
-            ->unique('team_id');
-
-        $pendingUserRoles = UserRole::where([
-            ['user_id', Auth::user()->id],
-            ['status', 0]
-        ])
-            ->whereNotNull('team_id')
-            ->join('teams', 'role_user.team_id', '=', 'teams.id')
-            ->select('role_user.*', 'teams.game_id')
-            ->orderBy('game_id', 'asc')
-            ->get()
-            ->unique('team_id');
+            ->groupBy('team_id');
 
         $games = Game::all()->pluck('name', 'id');
-        $gameRoles = Role::where('game_id', 1)->get();
+        $gameRoles = Role::where('game_id', 1)->pluck('label', 'id');
 
         $data = [
-            'userRoles' => $userRoles,
-            'pendingUserRoles' => $pendingUserRoles,
+            'teams' => $teams,
             'games' => $games,
             'gameRoles' => $gameRoles
         ];
@@ -199,7 +186,7 @@ class TeamController extends Controller
         if (empty($unknownUsers)) {
             return view('home.team.index', $data)->with([
                 'success' => true,
-                'message' => "Success"
+                'message' => "Votre équipe a bien été créée."
             ]);
         } else {
             return view('home.team.index', $data)->with([
@@ -220,10 +207,7 @@ class TeamController extends Controller
     {
         $team = Team::find($id);
 
-        $usersRole = UserRole::where([
-            ['team_id', $id],
-            ['status', 1]
-        ])
+        $usersRole = UserRole::where('team_id', $id)
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
             ->select('role_user.*', 'roles.type_id', 'roles.label')
             ->orderBy('type_id', 'ASC')
@@ -231,13 +215,15 @@ class TeamController extends Controller
             ->get();
 
         $games = Game::all()->pluck('name', 'id');
-        $gameRoles = Role::where('game_id', $team->game->id)->get();
+        $gameRoles = Role::where('game_id', $team->game->id)->pluck('label', 'id');
 
         $data = [
             'team' => $team,
             'usersRole' => $usersRole,
             'games' => $games,
-            'gameRoles' => $gameRoles
+            'gameRoles' => $gameRoles,
+            'isAdmin' => self::isAdmin($id),
+            'isCreator' => self::isCreator($id),
         ];
 
         return view('home.team.show', $data);
@@ -263,19 +249,41 @@ class TeamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(count($request->roles) != count(array_unique(array_column($request->roles, 'username')))) {
+        if(!empty($request->roles) && count($request->roles) != count(array_unique(array_column($request->roles, 'username')))) {
             return back()->with([
                 'error' => true,
                 'message' => "Un utilisateur ne peut pas avoir plusieurs rôles dans une même équipe."
             ]);
+        } elseif (empty($request->roles)) {
+            return back()->with([
+                'error' => true,
+                'message' => "Il n'y a aucun membre dans ton équipe."
+            ]);
         }
 
         $team = Team::find($id);
+        $namesakeTeams = Team::where('name', $request->name)->get();
 
         if ($team->name != $request->name) {
-            $team->name = $request->name;
-            $team->save();
+            if ($namesakeTeams->isEmpty()) {
+                $team->name = $request->name;
+                $team->save();
+            } else {
+                return back()->with([
+                    'error' => true,
+                    'message' => "Ce nom d'équipe est déjà pris."
+                ]);
+            }
         }
+
+        $usersRoleId = UserRole::where([
+            ['team_id', $id],
+            ['role_id', "!=", 1]
+        ])->pluck('id')->all();
+
+        foreach (array_diff($usersRoleId, array_keys($request->roles)) as $userRoleId) {
+            UserRole::find($userRoleId)->delete();
+        };
 
         $unknownUsers = [];
         foreach ($request->roles as $key => $role) {
@@ -288,14 +296,18 @@ class TeamController extends Controller
                     $userRole->role_id = $role['roleId'];
                     $userRole->team_id = $team->id;
                     $userRole->user_id = $user->id;
-                    $userRole->admin   = !empty($role['admin']) ? true : false;
+                    $userRole->status  = Auth::user()->id == $user->id;
+                    $userRole->admin   = !empty($role['admin']);
 
                     $userRole->save();
                 } else {
                     $userRole = UserRole::find($key);
 
+                    $userRole->role_id = $role['roleId'];
                     $userRole->user_id = $user->id;
-                    $userRole->admin   = !empty($role['admin']) ? true : false;
+                    $userRole->status  = Auth::user()->id == $user->id || in_array($user->id, $team->users->where('status', 1)->pluck('user_id')->all
+                    ());
+                    $userRole->admin   = !empty($role['admin']);
 
                     $userRole->save();
                 }
@@ -306,10 +318,7 @@ class TeamController extends Controller
 
         $team = Team::find($id);
 
-        $usersRole = UserRole::where([
-            ['team_id', $id],
-            ['status', 1]
-        ])
+        $usersRole = UserRole::where('team_id', $id)
             ->join('roles', 'role_user.role_id', '=', 'roles.id')
             ->select('role_user.*', 'roles.type_id', 'roles.label')
             ->orderBy('type_id', 'ASC')
@@ -317,19 +326,21 @@ class TeamController extends Controller
             ->get();
 
         $games = Game::all()->pluck('name', 'id');
-        $gameRoles = Role::where('game_id', $team->game->id)->get();
+        $gameRoles = Role::where('game_id', $team->game->id)->pluck('label', 'id');
 
         $data = [
             'team' => $team,
             'usersRole' => $usersRole,
             'games' => $games,
-            'gameRoles' => $gameRoles
+            'gameRoles' => $gameRoles,
+            'isAdmin' => self::isAdmin($id),
+            'isCreator' => self::isCreator($id),
         ];
 
         if (empty($unknownUsers)) {
             return view('home.team.show', $data)->with([
                 'success' => true,
-                'message' => "Success"
+                'message' => "Votre équipe a bien été mise à jour."
             ]);
         } elseif (!empty($unknownUsers)) {
             return view('home.team.show', $data)->with([
@@ -348,6 +359,72 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $usersRoles = UserRole::where('team_id', $id);
+
+        if ($usersRoles->delete()) {
+            $team = Team::find($id);
+
+            if ($team->delete()) {
+                $teams = UserRole::where('user_id', Auth::user()->id)
+                    ->whereNotNull('team_id')
+                    ->join('teams', 'role_user.team_id', '=', 'teams.id')
+                    ->join('roles', 'role_user.role_id', '=', 'roles.id')
+                    ->select('role_user.*', 'teams.game_id', 'teams.name as team_name', 'roles.label as role_label')
+                    ->orderBy('game_id', 'asc')
+                    ->orderBy('team_name', 'asc')
+                    ->orderBy('id', 'asc')
+                    ->get()
+                    ->groupBy('team_id');
+
+                $games = Game::all()->pluck('name', 'id');
+                $gameRoles = Role::where('game_id', 1)->pluck('label', 'id');
+
+                $data = [
+                    'teams' => $teams,
+                    'games' => $games,
+                    'gameRoles' => $gameRoles
+                ];
+
+                return view('home.team.index', $data)->with([
+                    'success' => true,
+                    'message' => "Votre équipe a bien été supprimée."
+                ]);
+            } else {
+                return back()->with([
+                    'error' => true,
+                    'message' => "Une erreur est survenue lors de la suppression de votre équipe."
+                ]);
+            }
+        } else {
+            return back()->with([
+                'error' => true,
+                'message' => "Une erreur est survenue lors de la suppression des membres de votre équipe."
+            ]);
+        }
+    }
+
+    /**
+     * Check is authenticated user is team admin
+     */
+    public function isAdmin($id)
+    {
+        return !empty(UserRole::where([
+            ['team_id', $id],
+            ['user_id', Auth::user()->id],
+            ['status', 1],
+            ['admin', 1]
+        ])->first());
+    }
+
+    /**
+     * Check is authenticated user is team creator
+     */
+    public function isCreator($id)
+    {
+        return !empty(UserRole::where([
+            ['team_id', $id],
+            ['user_id', Auth::user()->id],
+            ['role_id', 1]
+        ])->first());
     }
 }

@@ -26,30 +26,39 @@
 
     <div class="d-flex align-items-center">
         <div id="teams" class="d-flex">
-            @foreach($userRoles as $userRole)
-                <div class="mr-4">
-                    <a href="{{ route('home.team.show', $userRole->team->id) }}">
-                        <h4>{{ $userRole->team->name }}</h4>
-                        <p>{{ $userRole->role->label }}</p>
-                        <p>{{ $games[$userRole->team->game_id] }}</p>
-                    </a>
-                </div>
+            @foreach($teams as $userRoles)
+                @foreach($userRoles as $userRole)
+                    @if($userRole->status)
+                        <div class="mr-4">
+                            <a href="{{ route('home.team.show', $userRole->team->id) }}">
+                                <h4>{{ $userRole->team->name }}</h4>
+                                <p>{{ implode(" - ", $userRoles->pluck('role_label')->all()) }}</p>
+                                <p>{{ $games[$userRole->team->game_id] }}</p>
+                            </a>
+                        </div>
+                        @break
+                    @endif
+                @endforeach
             @endforeach
         </div>
 
-        <button id="create-team" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeamModal">Créer</button>
+        <button id="create-team" type="button" class="btn btn-primary mx-3" data-toggle="modal" data-target="#createTeamModal">Créer</button>
     </div>
 
     <div class="mt-5">
         <h3>Invitations</h3>
-        @foreach($pendingUserRoles as $pendingUserRole)
-            <div class="mr-4" data-user-role="{{ $pendingUserRole->id }}">
-                <h4>
-                    {{ $pendingUserRole->team->name }} - {{ $pendingUserRole->role->label }}
-                    <i class="answer-team-invitation fa fa-check" data-status="1"></i>
-                    <i class="answer-team-invitation fa fa-times" data-status="0"></i>
-                </h4>
-            </div>
+        @foreach($teams as $userRoles)
+            @foreach($userRoles as $userRole)
+                @if(!$userRole->status)
+                    <div class="mr-4" data-user-role="{{ $userRole->id }}">
+                        <h4>
+                            {{ $userRole->team->name }} - {{ $userRole->role->label }}
+                            <i class="answer-team-invitation fa fa-check" data-status="1"></i>
+                            <i class="answer-team-invitation fa fa-times" data-status="0"></i>
+                        </h4>
+                    </div>
+                @endif
+            @endforeach
         @endforeach
     </div>
 

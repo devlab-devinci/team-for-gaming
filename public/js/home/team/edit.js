@@ -90,13 +90,13 @@ $(document).on('click', ".new-member", function () {
     (_formInputsDiv$classL = formInputsDiv.classList).add.apply(_formInputsDiv$classL, ["flex-column", "flex-fill"]);
 
     var select = document.createElement("select");
-    select.name = "roles[" + newMembersCount + "][roleId]";
+    select.name = "roles[new-" + newMembersCount + "][roleId]";
     (_select$classList = select.classList).add.apply(_select$classList, ["pointer", "form-control", "mb-2"]);
 
-    roles.forEach(function (role) {
+    $.each(roles, function (roleId, roleLabel) {
         var option = document.createElement("option");
-        option.value = role.id;
-        option.text = role.label;
+        option.value = roleId;
+        option.text = roleLabel;
         select.append(option);
     });
 
@@ -104,7 +104,7 @@ $(document).on('click', ".new-member", function () {
 
     var input = document.createElement("input");
     input.classList.add("form-control");
-    input.name = "roles[" + newMembersCount + "][username]";
+    input.name = "roles[new-" + newMembersCount + "][username]";
     input.type = "text";
 
     formInputsDiv.append(input);
@@ -114,7 +114,7 @@ $(document).on('click', ".new-member", function () {
 
     var radio = document.createElement("input");
     (_radio$classList = radio.classList).add.apply(_radio$classList, ["pointer", "form-check-input"]);
-    radio.name = "roles[" + newMembersCount + "][admin]";
+    radio.name = "roles[new-" + newMembersCount + "][admin]";
     radio.value = 1;
     radio.type = "checkbox";
 
@@ -122,7 +122,7 @@ $(document).on('click', ".new-member", function () {
 
     var radioLabel = document.createElement("label");
     radioLabel.classList.add("form-check-label");
-    radioLabel.setAttribute('for', "roles[" + newMembersCount + "][admin]");
+    radioLabel.setAttribute('for', "roles[new-" + newMembersCount + "][admin]");
     radioLabel.innerHTML = "En tant qu'administrateur";
 
     check.append(radioLabel);

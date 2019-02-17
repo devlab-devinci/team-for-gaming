@@ -65,3 +65,10 @@ div.content {
   }
 }
 
+/* TEAMS */
+
+#teams {
+  overflow: auto;
+  white-space: nowrap;
+}
+
