@@ -17,8 +17,10 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/dashboard', function () {
-    return view('user-interface.dashboard');
-});
+Route::get('/dashboard', 'GameController@index');
+
+Route::post('gameLevel/fetch', 'GameController@fetchGameLevel')->name('game.fetch-game-level');
+
+Route::post('game/create', 'GameController@storeGameUser')->name('game.create');
 
 Route::get('/home', 'HomeController@index')->name('home');
