@@ -30,13 +30,13 @@
     <nav class="main-menu">
         <ul>
             <li>
-                <a href="http://justinfarrow.com">
+                <a href="{{ route('home.game.index') }}">
                     <i class="fa fa-user fa-2x"></i>
                     <span class="nav-text">Joueur</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ route('home.team.index') }}">
                     <i class="fa fa-users fa-2x"></i>
                     <span class="nav-text">Équipes</span>
                 </a>
@@ -55,15 +55,15 @@
             </li>
             <li>
                 <a href="#">
-                    <i class="fa fa-gear fa-2x"></i>
+                    <i class="fa fa-cog fa-2x"></i>
                     <span class="nav-text">Paramètres</span>
                 </a>
             </li>
         </ul>
         <ul class="logout">
             <li>
-                <a href="#">
-                    <i class="fa fa-cog fa-2x"></i>
+                <a href="{{ route('logout') }}">
+                    <i class="fa fa-sign-out-alt fa-2x"></i>
                     <span class="nav-text">Déconnexion</span>
                 </a>
             </li>

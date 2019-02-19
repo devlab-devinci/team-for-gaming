@@ -7,11 +7,7 @@
   padding-left: 100px;
 }
 
-.fa-2x {
-  font-size: 4em;
-}
-
-.fa {
+nav .fa {
   position: relative;
   display: table-cell;
   min-width: 100px;
