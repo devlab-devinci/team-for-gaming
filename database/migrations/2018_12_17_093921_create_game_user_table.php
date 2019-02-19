@@ -18,6 +18,7 @@ class CreateGameUserTable extends Migration
             $table->integer('user_id');
             $table->integer('game_id');
             $table->integer('game_level_id');
+            $table->string('pseudo', 255);
             $table->timestamps();
 
             //$table->foreign('user_id')->references('id')->on('users');

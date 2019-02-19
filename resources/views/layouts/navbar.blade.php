@@ -11,6 +11,12 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='https://fullcalendar.io/js/fullcalendar-3.1.0/lib/moment.min.js'></script>
+    <script src='https://fullcalendar.io/js/fullcalendar-3.1.0/lib/jquery.min.js'></script>
+    <script src='https://fullcalendar.io/js/fullcalendar-3.1.0/lib/jquery-ui.min.js'></script>
+    <script src='https://fullcalendar.io/js/fullcalendar-3.1.0/fullcalendar.min.js'></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css"/>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -21,15 +27,48 @@
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 </head>
 <body class="dashboard-body">
-    <div class="sidebar">
-        <div>
-            <h3>User Name</h3>
-        </div>
-        <a class="active" href="/dashboard">Joueur</a>
-        <a href="{{ route('home.team.index') }}">Équipes</a>
-        <a href="{{ route('home.organisation.index') }}">Organisations</a>
-        <a href="{{ route('logout') }}">Logout</a>
-    </div>
+    <nav class="main-menu">
+        <ul>
+            <li>
+                <a href="http://justinfarrow.com">
+                    <i class="fa fa-user fa-2x"></i>
+                    <span class="nav-text">Joueur</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-users fa-2x"></i>
+                    <span class="nav-text">Équipes</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-sitemap fa-2x"></i>
+                    <span class="nav-text">Structures</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-calendar-alt fa-2x"></i>
+                    <span class="nav-text">Planning</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-gear fa-2x"></i>
+                    <span class="nav-text">Paramètres</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="logout">
+            <li>
+                <a href="#">
+                    <i class="fa fa-cog fa-2x"></i>
+                    <span class="nav-text">Déconnexion</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <div class="content">
         @yield('content')
