@@ -15,6 +15,17 @@ use MaddHatter\LaravelFullcalendar\Calendar;
 class GameController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('verified');
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -51,6 +62,11 @@ class GameController extends Controller
         return view('user-interface.dashboard', compact('user', 'games', 'userGames', 'calendar'));
     }
 
+    /**
+     * Get game levels
+     *
+     * @param Request $request
+     */
     public function fetchGameLevel(Request $request) {
         $gameName = $request->get('value');
         $game = Game::find($gameName);
@@ -63,6 +79,12 @@ class GameController extends Controller
         echo $output;
     }
 
+    /**
+     * Store user game
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function storeGameUser(Request $request)
     {
         $validator = Validator::make($request->all(), [

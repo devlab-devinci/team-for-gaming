@@ -96,7 +96,7 @@
                     let _token = $('input[name="_token"]').val();
                     console.log(select, value, dependent, _token);
                     $.ajax({
-                        url:"{{ route('game.fetch-game-level') }}",
+                        url:"{{ route('home.game.fetch-game-level') }}",
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -119,7 +119,7 @@
                     console.log(game, game.val());
                     e.preventDefault();
                     $.ajax({
-                        url: "{{ route('game.create') }}",
+                        url: "{{ route('home.game.create') }}",
                         method: 'post',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
