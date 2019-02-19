@@ -84,7 +84,7 @@ $(document).on('click', ".answer-team-invitation", function () {
         success: function success(response) {
             invitation.remove();
             if (response.status) {
-                $("#teams").append("<div class=\"mr-4\">" + "<a href=\"{{ route('home.team.show', " + response.newRole.team.id + ") }}\">" + "<h4>" + response.newRole.team.name + "</h4>" + "<p>" + response.newRole.role + "</p>" + "<p>" + response.newRole.game + "</p>" + "</a>" + "</div>");
+                $("#teams").append("<div class=\"mr-4\">" + "<a href=" + window.location.origin + "/home/team/" + response.newRole.team.id + ">" + "<h4>" + response.newRole.team.name + "</h4>" + "<p>" + response.newRole.role + "</p>" + "<p>" + response.newRole.game + "</p>" + "</a>" + "</div>");
             }
         }
     });
