@@ -76,7 +76,19 @@ module.exports = __webpack_require__(43);
 /***/ 43:
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Applications/MAMP/htdocs/team-for-gaming/resources/js/home/team/index.js'");
+$(document).on('click', ".answer-team-invitation", function () {
+    var invitation = $($(this).parents()[1]);
+    $.ajax({
+        method: "GET",
+        url: window.location.origin + "/home/answerTeamInvitation/" + invitation.data('user-role') + "/" + $(this).data('status'),
+        success: function success(response) {
+            invitation.remove();
+            if (response.status) {
+                $("#teams").append("<div class=\"mr-4\">" + "<a href=\"{{ route('home.team.show', " + response.newRole.team.id + ") }}\">" + "<h4>" + response.newRole.team.name + "</h4>" + "<p>" + response.newRole.role + "</p>" + "<p>" + response.newRole.game + "</p>" + "</a>" + "</div>");
+            }
+        }
+    });
+});
 
 /***/ })
 

@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 </head>
 <body class="dashboard-body">
@@ -25,10 +26,14 @@
             <h3>User Name</h3>
         </div>
         <a class="active" href="/dashboard">Joueur</a>
+        <a href="{{ route('home.team.index') }}">Équipes</a>
+        <a href="{{ route('home.organisation.index') }}">Organisations</a>
+        <a href="{{ route('logout') }}">Logout</a>
     </div>
 
     <div class="content">
         @yield('content')
     </div>
+    @yield('js')
 </body>
 </html>

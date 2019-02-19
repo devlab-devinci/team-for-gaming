@@ -3,11 +3,15 @@
 use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\Game;
+use App\Models\User;
 use App\Models\Role;
 use App\Models\Type;
 use App\Models\GameLevel;
+
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +23,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(TypeTableSeeder::class);
+        $this->call(UserTableSeeder::class);
         $this->call(GameTableSeeder::class);
     }
 }
@@ -27,11 +32,50 @@ class TypeTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::table('types')->delete();
+        DB::table('users')->delete();
 
         Type::create(['label' => "Admin"]);
         Type::create(['label' => "Staff"]);
         Type::create(['label' => "Joueur"]);
+    }
+
+}
+
+class UserTableSeeder extends Seeder {
+
+    public function run()
+    {
+        DB::table('users')->delete();
+
+        User::create([
+            'username' => "BigBoss",
+            'firstname' => "Pierre",
+            'lastname' => "Legrand",
+            'date_of_birth' => "2002-03-24",
+            'email' => "pierre.legrand@gmail.com",
+            'password' => Hash::make("password"),
+            'email_verified_at' => Carbon::now()
+        ]);
+
+        User::create([
+            'username' => "TheKing",
+            'firstname' => "Clément",
+            'lastname' => "Dupont",
+            'date_of_birth' => "1997-06-15",
+            'email' => "clement.dupont@gmail.com",
+            'password' => Hash::make("password"),
+            'email_verified_at' => Carbon::now()
+        ]);
+
+        User::create([
+            'username' => "BadBoy",
+            'firstname' => "Jordan",
+            'lastname' => "Maillard",
+            'date_of_birth' => "2003-10-04",
+            'email' => "jordan.maillard@gmail.com",
+            'password' => Hash::make("password"),
+            'email_verified_at' => Carbon::now()
+        ]);
     }
 
 }
@@ -43,6 +87,12 @@ class GameTableSeeder extends Seeder {
         DB::table('games')->delete();
         DB::table('roles')->delete();
         DB::table('game_levels')->delete();
+
+        // Creator role
+        Role::create([
+            'type_id' => 1,
+            'label' => "Créateur"
+        ]);
 
         /// League Of Legends
         // Jeu

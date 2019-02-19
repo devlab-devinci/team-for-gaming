@@ -76,7 +76,70 @@ module.exports = __webpack_require__(47);
 /***/ 47:
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Applications/MAMP/htdocs/team-for-gaming/resources/js/home/team/edit.js'");
+var newMembersCount = 0;
+
+$(document).on('click', ".new-member", function () {
+    var _formGroupDiv$classLi, _formInputsDiv$classL, _select$classList, _check$classList, _radio$classList, _close$classList;
+
+    newMembersCount++;
+
+    var formGroupDiv = document.createElement("div");
+    (_formGroupDiv$classLi = formGroupDiv.classList).add.apply(_formGroupDiv$classLi, ["form-group", "d-flex"]);
+
+    var formInputsDiv = document.createElement("div");
+    (_formInputsDiv$classL = formInputsDiv.classList).add.apply(_formInputsDiv$classL, ["flex-column", "flex-fill"]);
+
+    var select = document.createElement("select");
+    select.name = "roles[new-" + newMembersCount + "][roleId]";
+    (_select$classList = select.classList).add.apply(_select$classList, ["pointer", "form-control", "mb-2"]);
+
+    $.each(roles, function (roleId, roleLabel) {
+        var option = document.createElement("option");
+        option.value = roleId;
+        option.text = roleLabel;
+        select.append(option);
+    });
+
+    formInputsDiv.append(select);
+
+    var input = document.createElement("input");
+    input.classList.add("form-control");
+    input.name = "roles[new-" + newMembersCount + "][username]";
+    input.type = "text";
+
+    formInputsDiv.append(input);
+
+    var check = document.createElement("div");
+    (_check$classList = check.classList).add.apply(_check$classList, ["form-check", "mt-2", "mb-3"]);
+
+    var radio = document.createElement("input");
+    (_radio$classList = radio.classList).add.apply(_radio$classList, ["pointer", "form-check-input"]);
+    radio.name = "roles[new-" + newMembersCount + "][admin]";
+    radio.value = 1;
+    radio.type = "checkbox";
+
+    check.append(radio);
+
+    var radioLabel = document.createElement("label");
+    radioLabel.classList.add("form-check-label");
+    radioLabel.setAttribute('for', "roles[new-" + newMembersCount + "][admin]");
+    radioLabel.innerHTML = "En tant qu'administrateur";
+
+    check.append(radioLabel);
+    formInputsDiv.append(check);
+    formGroupDiv.append(formInputsDiv);
+
+    var close = document.createElement("i");
+    (_close$classList = close.classList).add.apply(_close$classList, ["remove-role", "pointer", "fa", "fa-times", "ml-3"]);
+
+    formGroupDiv.append(close);
+
+    $("#roles").append(formGroupDiv);
+});
+
+$(document).on('click', ".remove-role", function () {
+    $(this).parent().remove();
+});
 
 /***/ })
 

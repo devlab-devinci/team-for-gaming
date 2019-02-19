@@ -13,7 +13,6 @@ class Team extends Model
      */
     protected $fillable = [
         'game_id',
-        'organisation_id',
         'name'
     ];
 
@@ -22,15 +21,27 @@ class Team extends Model
     /////////////////////
 
     /**
+     * Get organisations invitations related to the team
+     *
+     * @access public
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function invitations()
+    {
+        return $this->hasMany('App\Models\TeamOrganisation')->where('status', 0);
+    }
+
+    /**
      * Get organisation related to the team
      *
      * @access public
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
     public function organisation()
     {
-        return $this->belongsTo('App\Models\Organisation');
+        return $this->hasMany('App\Models\TeamOrganisation')->where('status', 1);
     }
 
     /**

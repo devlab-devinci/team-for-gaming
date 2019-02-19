@@ -17,19 +17,25 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/dashboard', function () {
-    return view('user-interface.dashboard');
-});
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['namespace' => 'Home', 'prefix' => 'home', 'as' => 'home.'], function()
 {
+    // Games
     Route::resource('game', 'GameController');
 
+    // Teams
     Route::resource('team', 'TeamController');
 
+    Route::get('getGameRoles/{gameId}', 'TeamController@getGameRoles');
+
+    Route::get('answerTeamInvitation/{userRoleId}/{status}', 'TeamController@answerTeamInvitation');
+
+    // Organisations
     Route::resource('organisation', 'OrganisationController');
 
+    // Settings
     Route::resource('user', 'UserController');
 });
