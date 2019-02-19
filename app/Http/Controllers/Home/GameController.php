@@ -9,6 +9,7 @@ use App\Models\Game;
 use App\Models\User;
 use App\Models\GameLevel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use MaddHatter\LaravelFullcalendar\Calendar;
 
 class GameController extends Controller
@@ -22,7 +23,7 @@ class GameController extends Controller
     {
         $events = [];
 
-        $events[] = \Calendar::event(
+        $events[] = Calendar::event(
             'Event One', //event title
             false, //full day event?
             '2015-02-11T0800', //start time (you can also use Carbon instead of DateTime)
@@ -30,7 +31,7 @@ class GameController extends Controller
             0 //optionally, you can specify an event ID
         );
 
-        $events[] = \Calendar::event(
+        $events[] = Calendar::event(
             "Valentine's Day", //event title
             true, //full day event?
             new \DateTime('2015-02-14'), //start time (you can also use Carbon instead of DateTime)
@@ -64,7 +65,7 @@ class GameController extends Controller
 
     public function storeGameUser(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'game' => 'required',
             'pseudo' => 'required',
             'gameLevel' => 'required',
