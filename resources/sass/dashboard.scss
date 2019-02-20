@@ -10,54 +10,195 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-.sidebar {
-  margin: 0;
-  padding: 0;
-  width: 200px;
-  background-color: #2A2E43;
-  position: fixed;
-  height: 100%;
-  overflow: auto;
-  h3 {
-    padding: 20px;
-    color: white;
+.content {
+  padding-left: 100px;
+}
+
+nav .fa {
+  position: relative;
+  display: table-cell;
+  min-width: 100px;
+  height: 64px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 46px;
+}
+
+
+.main-menu:hover,nav.main-menu.expanded {
+  width:250px;
+  overflow:visible;
+  .fa {
+    min-width: 60px;
+    font-size: 30px;
+    -webkit-transition:font-size .2s, min-width .2s;
+    transition:font-size .2s, min-width .2s;
   }
-  a {
+  .content {
+    padding-left: 250px;
+  }
+}
+
+.main-menu {
+  background:#2A2E43;
+  border-right:1px solid #e5e5e5;
+  position:absolute;
+  top:0;
+  bottom:0;
+  height:100%;
+  left:0;
+  width:100px;
+  overflow:hidden;
+  -webkit-transition:width .2s linear;
+  transition:width .2s linear;
+  -webkit-transform:translateZ(0) scale(1,1);
+  z-index:1000;
+}
+
+.main-menu>ul {
+  margin:7px 0;
+}
+
+.main-menu li {
+  position:relative;
+  display:block;
+  width:250px;
+}
+
+.main-menu li>a {
+  position:relative;
+  display:table;
+  border-collapse:collapse;
+  border-spacing:0;
+  color: white;
+  font-size: 14px;
+  text-decoration:none;
+  -webkit-transform:translateZ(0) scale(1,1);
+  -webkit-transition:all .4s linear;
+  transition:all .4s linear;
+
+}
+
+.main-menu .nav-icon {
+  position:relative;
+  display:table-cell;
+  width:60px;
+  height:36px;
+  text-align:center;
+  vertical-align:middle;
+  font-size:18px;
+}
+
+.main-menu .nav-text {
+  position:relative;
+  display:table-cell;
+  vertical-align:middle;
+  font-size: 20px;
+  width:190px;
+}
+
+.main-menu>ul.logout {
+  position:absolute;
+  left:0;
+  bottom:0;
+}
+
+.no-touch .scrollable.hover {
+  overflow-y:hidden;
+}
+
+.no-touch .scrollable.hover:hover {
+  overflow-y:auto;
+  overflow:visible;
+}
+
+a:hover,a:focus {
+  text-decoration:none;
+}
+
+nav {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  -o-user-select:none;
+  user-select:none;
+}
+
+nav ul,nav li {
+  outline:0;
+  margin:0;
+  padding:0;
+}
+
+.main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
+  background-image: linear-gradient(#30C0F2, #5372F4);
+  background-color: #5fa2db;
+  .nav-text{
+    color:#2A2E43;
+  }
+}
+
+.dashboard-container {
+  padding-top: 20px;
+}
+
+.dashboard-container > * {
+   margin-top: 20px;
+ }
+
+.dashboard-title {
+  span {
     display: block;
-    color: black;
-    padding: 16px;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: 600;
-    text-align: center;
-  }
-  a.active {
-    background-image: linear-gradient(#30C0F2, #5372F4); /* Standard syntax (must be last) */
-    background-color: #30C0F2;
-    color: white;
+    width: 50px;
+    height: 5px;
+    background-color: #5fa2db;
   }
 }
 
-div.content {
-  margin-left: 200px;
-  padding: 1px 16px;
-  height: 1000px;
+.user-games {
+  text-align: center;
+  .game-title {
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: white;
+    border-radius: 16px;
+    border: 1px solid black;
+    span {
+      display: block;
+      background-color: purple;
+      width: 60px;
+    }
+  }
 }
 
-@media screen and (max-width: 700px) {
-  .sidebar {
+.game-icon {
+  margin: auto;
+  width: 200px;
+  height: 200px;
+  img {
+    border-radius: 50%;
     width: 100%;
-    height: auto;
-    position: relative;
+    height: 100%;
   }
-  .sidebar a {float: left;}
-  div.content {margin-left: 0;}
 }
 
-@media screen and (max-width: 400px) {
-  .sidebar a {
-    text-align: center;
-    float: none;
+.add-game {
+  height: 50px;
+  width: 50px;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  padding: 0;
+  background-color: #30C0F2;
+  position: absolute;
+  top: 50%;
+  margin-top: -25px;
+  i {
+    padding: 0;
+    font-size: 30px;
+    min-width: 50px !important;
+    height: 50px !important;
   }
 }
 

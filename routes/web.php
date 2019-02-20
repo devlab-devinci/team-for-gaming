@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
@@ -25,6 +26,12 @@ Route::group(['namespace' => 'Home', 'prefix' => 'home', 'as' => 'home.'], funct
 {
     // Games
     Route::resource('game', 'GameController');
+
+    Route::get('/dashboard', 'GameController@index');
+
+    Route::post('gameLevel/fetch', 'GameController@fetchGameLevel')->name('game.fetch-game-level');
+
+    Route::post('game/create', 'GameController@storeGameUser')->name('game.create');
 
     // Teams
     Route::resource('team', 'TeamController');
