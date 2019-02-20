@@ -1,8 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
     "/css/dashboard.css": "/css/dashboard.css",
     "/js/home/team/index.js": "/js/home/team/index.js",
     "/js/home/team/edit.js": "/js/home/team/edit.js",
-    "/js/home/team/create.js": "/js/home/team/create.js"
+    "/js/home/team/create.js": "/js/home/team/create.js",
+    "/css/app.css": "/css/app.css"
 }

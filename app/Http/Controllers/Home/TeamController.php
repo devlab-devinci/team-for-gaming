@@ -155,7 +155,7 @@ class TeamController extends Controller
                 $userRole->role_id = $role['roleId'];
                 $userRole->team_id = $team->id;
                 $userRole->status  = Auth::user()->id == $user->id;
-                $userRole->admin   = !empty($role['admin']);
+                $userRole->admin   = Auth::user()->id == $user->id || !empty($role['admin']);
 
                 $userRole->save();
             } else {
@@ -305,7 +305,7 @@ class TeamController extends Controller
             return redirect()->route('home.team.show', [$id])->with([
                 'warning' => true,
                 'message' => "Les utilisateurs suivants n'existent pas sur notre site :",
-                'users' => $unknownUsers
+                'unknownUsers' => $unknownUsers
             ]);
         }
     }
