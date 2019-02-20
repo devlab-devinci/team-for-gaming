@@ -126,6 +126,14 @@ class TeamController extends Controller
             ]);
         }
 
+        $namesakeTeams = Team::where('name', $request->name)->get();
+        if ($namesakeTeams->isNotEmpty()) {
+            return back()->with([
+                'error' => true,
+                'message' => "Ce nom d'équipe est déjà pris."
+            ]);
+        }
+
         $team = new Team();
 
         $team->name = $request->name;
@@ -245,15 +253,16 @@ class TeamController extends Controller
         $namesakeTeams = Team::where('name', $request->name)->get();
 
         if ($team->name != $request->name) {
-            if ($namesakeTeams->isEmpty()) {
-                $team->name = $request->name;
-                $team->save();
-            } else {
+            if ($namesakeTeams->isNotEmpty()) {
                 return back()->with([
                     'error' => true,
                     'message' => "Ce nom d'équipe est déjà pris."
                 ]);
             }
+
+            $team->name = $request->name;
+
+            $team->save();
         }
 
         $usersRoleId = UserRole::where([
