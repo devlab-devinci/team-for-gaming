@@ -15,7 +15,7 @@ class CreateGameLevelsTable extends Migration
     {
         Schema::create('game_levels', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('game_id');
+            $table->integer('game_id', false, true)->index();
             $table->string('label', 255);
             $table->smallInteger('order');
             $table->timestamps();

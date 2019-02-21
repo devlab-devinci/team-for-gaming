@@ -15,16 +15,12 @@ class CreateTeamUserTable extends Migration
     {
         Schema::create('team_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('team_id');
-            $table->integer('role_id');
+            $table->integer('user_id', false, true)->index();
+            $table->integer('team_id', false, true)->index();
+            $table->integer('role_id', false, true)->index();
             $table->boolean('admin')->default(0);
             $table->boolean('status')->default(0);
             $table->timestamps();
-
-            //$table->foreign('user_id')->references('id')->on('users');
-            //$table->foreign('team_id')->references('id')->on('teams');
-            //$table->foreign('role_id')->references('id')->on('roles');
         });
     }
 

@@ -15,13 +15,10 @@ class CreateOrganisationTeamTable extends Migration
     {
         Schema::create('organisation_team', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('team_id')->nullable();
-            $table->integer('organisation_id')->nullable();
+            $table->integer('team_id', false, true)->index()->nullable();
+            $table->integer('organisation_id', false, true)->index()->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
-
-            //$table->foreign('team_id')->references('id')->on('teams');
-            //$table->foreign('organisation_id')->references('id')->on('organisations');
         });
     }
 

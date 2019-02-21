@@ -76,6 +76,26 @@ class UserTableSeeder extends Seeder {
             'password' => Hash::make("password"),
             'email_verified_at' => Carbon::now()
         ]);
+
+        User::create([
+            'username' => "Aloha",
+            'firstname' => "Kévin",
+            'lastname' => "Delcourt",
+            'date_of_birth' => "2001-05-04",
+            'email' => "k.delc@hotmail.com",
+            'password' => Hash::make("password"),
+            'email_verified_at' => Carbon::now()
+        ]);
+
+        User::create([
+            'username' => "Glock",
+            'firstname' => "Delphine",
+            'lastname' => "Poirier",
+            'date_of_birth' => "1995-11-23",
+            'email' => "delph.p@hotmail.fr",
+            'password' => Hash::make("password"),
+            'email_verified_at' => Carbon::now()
+        ]);
     }
 
 }
@@ -94,21 +114,21 @@ class GameTableSeeder extends Seeder {
             'label' => "Créateur"
         ]);
 
+        // Staff roles
+        Role::create([
+            'type_id' => 2,
+            'label' => "Manager"
+        ]);
+        Role::create([
+            'type_id' => 2,
+            'label' => "Analyste"
+        ]);
+
         /// League Of Legends
         // Jeu
         Game::create(['name' => "League Of Legends"]);
 
         // Rôles
-        Role::create([
-            'type_id' => 2,
-            'game_id' => 1,
-            'label' => "Manager"
-        ]);
-        Role::create([
-            'type_id' => 2,
-            'game_id' => 1,
-            'label' => "Analyste"
-        ]);
         Role::create([
             'type_id' => 3,
             'game_id' => 1,
@@ -278,16 +298,6 @@ class GameTableSeeder extends Seeder {
 
         // Rôles
         Role::create([
-            'type_id' => 2,
-            'game_id' => 2,
-            'label' => "Manager"
-        ]);
-        Role::create([
-            'type_id' => 2,
-            'game_id' => 2,
-            'label' => "Analyste"
-        ]);
-        Role::create([
             'type_id' => 3,
             'game_id' => 2,
             'label' => "Sniper"
@@ -395,16 +405,6 @@ class GameTableSeeder extends Seeder {
         Game::create(['name' => "Hearthstone"]);
 
         // Rôles
-        Role::create([
-            'type_id' => 2,
-            'game_id' => 3,
-            'label' => "Manager"
-        ]);
-        Role::create([
-            'type_id' => 2,
-            'game_id' => 3,
-            'label' => "Analyste"
-        ]);
         Role::create([
             'type_id' => 3,
             'game_id' => 3,

@@ -15,15 +15,12 @@ class CreateGameUserTable extends Migration
     {
         Schema::create('game_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('game_id');
-            $table->integer('game_level_id');
+            $table->integer('user_id', false, true)->index();
+            $table->integer('game_id', false, true)->index();
+            $table->integer('game_level_id', false, true)->index();
+            $table->integer('role_id', false, true)->index();
             $table->string('pseudo', 255);
             $table->timestamps();
-
-            //$table->foreign('user_id')->references('id')->on('users');
-            //$table->foreign('game_id')->references('id')->on('games');
-            //$table->foreign('game_level_id')->references('id')->on('game_levels');
         });
     }
 

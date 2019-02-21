@@ -15,13 +15,10 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('type_id');
-            $table->integer('game_id')->nullable();
+            $table->integer('type_id', false, true)->index();
+            $table->integer('game_id', false, true)->index()->nullable();
             $table->string('label', 255);
             $table->timestamps();
-
-            //$table->foreign('type_id')->references('id')->on('types');
-            //$table->foreign('game_id')->references('id')->on('games');
         });
     }
 
