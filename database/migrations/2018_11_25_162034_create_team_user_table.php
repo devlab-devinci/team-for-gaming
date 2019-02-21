@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoleUserTable extends Migration
+class CreateTeamUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateRoleUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('role_user', function (Blueprint $table) {
+        Schema::create('team_user', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
+            $table->integer('team_id');
             $table->integer('role_id');
-            $table->integer('team_id')->nullable();
-            $table->integer('organisation_id')->nullable();
             $table->boolean('admin')->default(0);
             $table->boolean('status')->default(0);
             $table->timestamps();
 
             //$table->foreign('user_id')->references('id')->on('users');
+            //$table->foreign('team_id')->references('id')->on('teams');
             //$table->foreign('role_id')->references('id')->on('roles');
         });
     }
@@ -35,6 +35,6 @@ class CreateRoleUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_user');
+        Schema::dropIfExists('team_user');
     }
 }

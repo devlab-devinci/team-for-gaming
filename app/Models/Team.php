@@ -65,6 +65,6 @@ class Team extends Model
      */
     public function users()
     {
-        return $this->hasMany('App\Models\UserRole');
+        return $this->hasMany('App\Models\UserTeam');
     }
 }

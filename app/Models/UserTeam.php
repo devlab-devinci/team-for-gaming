@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserRole extends Model
+class UserTeam extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'role_user';
+    protected $table = 'team_user';
 
     /**
      * The attributes that are mass assignable.
@@ -20,9 +20,8 @@ class UserRole extends Model
      */
     protected $fillable = [
         'user_id',
-        'role_id',
         'team_id',
-        'organisation_id'
+        'role_id'
     ];
 
     /////////////////////
@@ -63,17 +62,5 @@ class UserRole extends Model
     public function team()
     {
         return $this->belongsTo('App\Models\Team');
-    }
-
-    /**
-     * Get the organisation related to the user_role
-     *
-     * @access public
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function organisation()
-    {
-        return $this->belongsTo('App\Models\Organisation');
     }
 }

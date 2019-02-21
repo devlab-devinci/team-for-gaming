@@ -8,7 +8,7 @@ use App\Models\Game;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
-use App\Models\UserRole;
+use App\Models\UserTeam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,11 +34,11 @@ class TeamController extends Controller
      */
     public function index()
     {
-        $teams = UserRole::where('user_id', Auth::user()->id)
+        $teams = UserTeam::where('user_id', Auth::user()->id)
             ->whereNotNull('team_id')
-            ->join('teams', 'role_user.team_id', '=', 'teams.id')
-            ->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->select('role_user.*', 'teams.game_id', 'teams.name as team_name', 'roles.label as role_label')
+            ->join('teams', 'team_user.team_id', '=', 'teams.id')
+            ->join('roles', 'team_user.role_id', '=', 'roles.id')
+            ->select('team_user.*', 'teams.game_id', 'teams.name as team_name', 'roles.label as role_label')
             ->orderBy('game_id', 'asc')
             ->orderBy('team_name', 'asc')
             ->orderBy('id', 'asc')
@@ -64,7 +64,7 @@ class TeamController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function answerTeamInvitation($userRoleId, $status) {
-        $userRole = UserRole::find($userRoleId);
+        $userRole = UserTeam::find($userRoleId);
 
         if ($status) {
             $userRole->status = 1;
@@ -142,11 +142,11 @@ class TeamController extends Controller
         $team->save();
 
         // Creator role
-        $userRole = new UserRole();
+        $userRole = new UserTeam();
 
         $userRole->user_id = Auth::user()->id;
-        $userRole->role_id = Role::where('type_id', 1)->first()->id;
         $userRole->team_id = $team->id;
+        $userRole->role_id = Role::where('type_id', 1)->first()->id;
         $userRole->status  = 1;
         $userRole->admin   = 1;
 
@@ -157,11 +157,11 @@ class TeamController extends Controller
             $user = User::where('username', $role['username'])->first();
 
             if (!empty($user)) {
-                $userRole = new UserRole();
+                $userRole = new UserTeam();
 
                 $userRole->user_id = $user->id;
-                $userRole->role_id = $role['roleId'];
                 $userRole->team_id = $team->id;
+                $userRole->role_id = $role['roleId'];
                 $userRole->status  = Auth::user()->id == $user->id;
                 $userRole->admin   = Auth::user()->id == $user->id || !empty($role['admin']);
 
@@ -195,9 +195,9 @@ class TeamController extends Controller
     {
         $team = Team::find($id);
 
-        $usersRole = UserRole::where('team_id', $id)
-            ->join('roles', 'role_user.role_id', '=', 'roles.id')
-            ->select('role_user.*', 'roles.type_id', 'roles.label')
+        $usersRole = UserTeam::where('team_id', $id)
+            ->join('roles', 'team_user.role_id', '=', 'roles.id')
+            ->select('team_user.*', 'roles.type_id', 'roles.label')
             ->orderBy('type_id', 'ASC')
             ->orderBy('label', 'ASC')
             ->get();
@@ -265,13 +265,13 @@ class TeamController extends Controller
             $team->save();
         }
 
-        $usersRoleId = UserRole::where([
+        $usersRoleId = UserTeam::where([
             ['team_id', $id],
             ['role_id', "!=", 1]
         ])->pluck('id')->all();
 
         foreach (array_diff($usersRoleId, array_keys($request->roles)) as $userRoleId) {
-            UserRole::find($userRoleId)->delete();
+            UserTeam::find($userRoleId)->delete();
         };
 
         $unknownUsers = [];
@@ -280,7 +280,7 @@ class TeamController extends Controller
 
             if (!empty($user)) {
                 if (strpos($key, "new-") !== false) {
-                    $userRole = new UserRole();
+                    $userRole = new UserTeam();
 
                     $userRole->role_id = $role['roleId'];
                     $userRole->team_id = $team->id;
@@ -290,7 +290,7 @@ class TeamController extends Controller
 
                     $userRole->save();
                 } else {
-                    $userRole = UserRole::find($key);
+                    $userRole = UserTeam::find($key);
 
                     $userRole->role_id = $role['roleId'];
                     $userRole->user_id = $user->id;
@@ -327,7 +327,7 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        $usersRoles = UserRole::where('team_id', $id);
+        $usersRoles = UserTeam::where('team_id', $id);
 
         if ($usersRoles->delete()) {
             $team = Team::find($id);
@@ -356,7 +356,7 @@ class TeamController extends Controller
      */
     public function isAdmin($id)
     {
-        return !empty(UserRole::where([
+        return !empty(UserTeam::where([
             ['team_id', $id],
             ['user_id', Auth::user()->id],
             ['status', 1],
@@ -369,7 +369,7 @@ class TeamController extends Controller
      */
     public function isCreator($id)
     {
-        return !empty(UserRole::where([
+        return !empty(UserTeam::where([
             ['team_id', $id],
             ['user_id', Auth::user()->id],
             ['role_id', 1]

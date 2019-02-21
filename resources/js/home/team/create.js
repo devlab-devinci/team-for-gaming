@@ -1,8 +1,4 @@
-let newMembersCount = 0;
-
 $('select[name=game]').change(function() {
-    newMembersCount = 0;
-
     $.ajax({
         method: "GET",
         url: window.location.origin + "/home/getGameRoles/" + this.value,
@@ -22,6 +18,8 @@ $('select[name=game]').change(function() {
         },
     });
 });
+
+let newMembersCount = 0;
 
 $(document).on('click', ".new-member", function () {
     newMembersCount++;

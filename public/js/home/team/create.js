@@ -76,11 +76,7 @@ module.exports = __webpack_require__(45);
 /***/ 45:
 /***/ (function(module, exports) {
 
-var newMembersCount = 0;
-
 $('select[name=game]').change(function () {
-    newMembersCount = 0;
-
     $.ajax({
         method: "GET",
         url: window.location.origin + "/home/getGameRoles/" + this.value,
@@ -100,6 +96,8 @@ $('select[name=game]').change(function () {
         }
     });
 });
+
+var newMembersCount = 0;
 
 $(document).on('click', ".new-member", function () {
     var _formGroupDiv$classLi, _formInputsDiv$classL, _select$classList, _check$classList, _radio$classList, _close$classList;
