@@ -46,7 +46,7 @@ class TeamController extends Controller
             ->groupBy('team_id');
 
         $games = Game::all()->pluck('name', 'id');
-        $gameRoles = Role::where('game_id', 1)->pluck('label', 'id');
+        $gameRoles = Role::where('game_id', 1)->orWhere('type_id', 2)->pluck('label', 'id');
 
         $data = [
             'teams' => $teams,
@@ -91,7 +91,7 @@ class TeamController extends Controller
      */
     public function getGameRoles($gameId)
     {
-        $roles = Role::where('game_id', $gameId)->pluck('label', 'id');
+        $roles = Role::where('game_id', $gameId)->orWhere('type_id', 2)->pluck('label', 'id');
 
         return $roles;
     }

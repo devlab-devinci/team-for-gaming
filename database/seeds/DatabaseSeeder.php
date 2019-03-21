@@ -32,7 +32,7 @@ class TypeTableSeeder extends Seeder {
 
     public function run()
     {
-        DB::table('users')->delete();
+        DB::table('types')->delete();
 
         Type::create(['label' => "Admin"]);
         Type::create(['label' => "Staff"]);
